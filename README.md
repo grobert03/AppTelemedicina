@@ -1,1 +1,4 @@
 # AppTelemedicina
+
+## Especificación de requisitos
+
