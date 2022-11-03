@@ -1,0 +1,26 @@
+body {
+    height: 95vh;
+    width: 95vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    height: 30%;
+    width: 30%;
+    background-color: bisque;
+    border: 1px solid black;
+    border-radius: 1.25em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
