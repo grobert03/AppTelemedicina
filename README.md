@@ -31,9 +31,9 @@ Los pacientes/médicos tendrán una lista con los mensajes que les han enviado, 
 
 Si un médico tiene más de **20 mensajes sin leer**, al intentar contactar con él, el paciente recibirá un aviso de que **el médico no está disponible**, hasta que se lean parte de los mensajes no leídos.
 
-### Conversaciones ###
+### Mensajes ###
 
-Los pacientes pueden enviar mensajes a los médicos con sus consultas (el destinatario se elige por el nombre de usuario). El mensaje se puede enviar a varios médicos. Los médicos. **no podrán iniciar conversaciones**, solo responder a los mensajes enviados por sus pacientes.  
+Los pacientes pueden enviar mensajes a los médicos con sus consultas (el destinatario se elige por el nombre de usuario). El mensaje se puede enviar a varios médicos. Los médicos. **no podrán iniciar conversaciones**, solo responder a los mensajes enviados por sus pacientes. 
 
 Los mensajes podrán contener ficheros adjuntos, además de imágenes (sin adjuntar, vistas directamentes al acceder a la conversación).
 
