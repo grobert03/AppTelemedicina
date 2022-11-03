@@ -1,13 +1,25 @@
-body {
-    height: 95vh;
-    width: 95vw;
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+header {
+    height: 10%;
+    background-color: #5b5e8d;
+}
+
+section {
+    background-color: #d6d0c8;
+    height: 90%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 }
 
 form {
-    height: 30%;
+    height: 40%;
     width: 30%;
     background-color: bisque;
     border: 1px solid black;
@@ -16,6 +28,7 @@ form {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+
 }
 
 form div {

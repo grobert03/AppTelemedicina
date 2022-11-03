@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="./estilos/login.css">
 </head>
 <body>
+    <header>
+
+    </header>
+    <section>
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
         <div>
             <label for="usu">Usuario:</label>
@@ -26,5 +30,7 @@
         </div>
         <input type="submit" value="Entrar">
     </form>
+    <p>¿No tiene una cuenta?<a href="registro.php">Pulse aquí para registrarse</a></p>
+    </section>
 </body>
 </html>
