@@ -1,7 +1,17 @@
 <?php 
     require_once "operacionesBD.php";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
+        $usu = comprobar_usuario($_POST['usuario'], $_POST['pass']);
+        if($usu===false){
+            $err = true;
+            $usuario = $_POST['usuario'];
+        }else{
+            session_start();
+            // $usu tiene campos correo y codRes, correo 
+            $_SESSION['usuario'] = $usu;
+            header("Location: inicio.php");
+            return;
+        }	
     }
 ?>
 
@@ -19,6 +29,12 @@
 
     </header>
     <section>
+        <?php if(isset($_GET["redirigido"])){
+			echo "<p>Haga login para continuar</p>";
+		}?>
+		<?php if(isset($err) and $err == true){
+			echo "<p> Revise usuario y contraseña</p>";
+		}?>
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
         <div>
             <label for="usu">Usuario:</label>
@@ -26,11 +42,14 @@
         </div>
         <div>
             <label for="pass">Contraseña:</label>
-            <input id="pass" type="text" name="pass">
+            <input id="pass" type="password" name="pass">
         </div>
         <input type="submit" value="Entrar">
     </form>
-    <p>¿No tiene una cuenta?<a href="registro.php">Pulse aquí para registrarse</a></p>
+    <div id="registro">
+        <p>¿No tiene una cuenta?</p>
+        <a href="registro.php">Pulse aquí para registrarse</a>
+    </div>
     </section>
 </body>
 </html>

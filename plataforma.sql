@@ -34,5 +34,5 @@ CREATE TABLE medicos (
     CONSTRAINT PK_Medico PRIMARY KEY (usuario, correo)
 );
 
-insert into medicos (usuario, pass, correo) VALUES ('ivan03', '$2y$10$BKMhfVbuz6je4TqOMulPn.wN2BTRr54pfmZJXbjJ0xSygXv7tdd0m', 'ivancheca@comem.es');
+insert into medicos VALUES ('ivan03', '$2y$10$BKMhfVbuz6je4TqOMulPn.wN2BTRr54pfmZJXbjJ0xSygXv7tdd0m', 'ivancheca@comem.es', NULL, NULL, NULL, NULL, NULL, NULL);
 

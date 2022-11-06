@@ -23,26 +23,37 @@ function leer_configuracionBDD($nombre, $esquema) {
 // Funcion para comprobar que el usuario y la clave están correctas en el login
 function comprobar_usuario($nombre, $clave) {
     // Verificar la contraseña
-    $clave2 = devolver_clave($nombre)['clave'];
-	if (!password_verify($clave, $clave2)) {
+	if (devolver_clave($nombre)) {
+		$clave2 = devolver_clave($nombre)['pass'];
+	} else {
 		return false;
 	}
+    
+	if (!password_verify($clave, $clave2)) {
+		return false;
+	} 
     // Devolver el usuario y la contraseña
-	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/configuracionBDD.xsd");
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/comprobarBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
-	$ins = "select usuario, correo from restaurantes where correo = '$nombre' 
-			and clave = '$clave2'";
+	$ins = "select usuario, pass from pacientes where usuario = '$nombre' 
+			and pass = '$clave2'";
 	$resul = $bd->query($ins);	
 	if($resul->rowCount() === 1){		
 		return $resul->fetch();		
 	}else{
-		return FALSE;
+		$ins = "select usuario, pass from medicos where usuario = '$nombre' and pass = '$clave2'";
+		$resul = $bd->query($ins);	
+		if($resul->rowCount() === 1){		
+		return $resul->fetch();	
+		} else {
+			return FALSE;
+		}
 	}
 }
 
 // Funcion para buscar la clave de un usuario
 function devolver_clave($nombre) {
-    $res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/configuracionBDD.xsd");
+    $res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/comprobarBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
     // Verificar en la tabla de pacientes
 	$ins = "select pass from pacientes where usuario = '$nombre'";
@@ -62,3 +73,25 @@ function devolver_clave($nombre) {
 	}
 }
 
+function ingresar_usuario($nombre, $clave, $correo) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/comprobarBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+	$clave = password_hash($clave, PASSWORD_DEFAULT);
+	if (str_contains($correo, '@comem.es')) {
+		$query = "insert into medicos values ('$nombre', '$clave', '$correo', NULL, NULL, NULL, NULL, NULL, NULL);";
+		$resul = $bd->query($query);
+		if ($resul->rowCount() != 1) {
+			echo "UH OH";
+		} else {
+			echo "LINEA INSERTADA";
+		}
+	} else {
+		$query = "insert into pacientes values ('$nombre', '$clave', '$correo', NULL);";
+		$resul = $bd->query($query);
+		if ($resul->rowCount() != 1) {
+			echo "UH OH";
+		} else {
+			echo "LINEA INSERTADA";
+		}
+	}
+}
