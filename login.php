@@ -32,6 +32,13 @@
         </div>
     </header>
     <h1>Bienvenido a MediMadrid!</h1>
+    <?php 
+        if (isset($_GET['registrado']) && $_GET['registrado'] == true) {
+            echo "<h3 style='color: yellow;'>Registro completo!</h3>";
+        } else if ($_GET['registrado'] == false) {
+            echo "<h3 style='color: yellow;'>Fallo en el registro!</h3>";
+        }
+    ?>
     <section>
         <div id="formulario">
             <h2>Acceder a la cuenta:</h2>

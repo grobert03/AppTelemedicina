@@ -1,4 +1,5 @@
 <?php
+include_once "operacionesCorreo.php";
 // Función para leer y validar el XML de la base de datos
 function leer_configuracionBDD($nombre, $esquema) {
     $config = new DOMDocument();
@@ -20,10 +21,7 @@ function leer_configuracionBDD($nombre, $esquema) {
 	return $resul;
 }
 
-// Función para leer y validar el XML del correo
-function leer_configuracionCorreo() {
 
-}
 
 // Funcion para comprobar los credenciales del login
 function comprobar_credenciales($nombre, $clave) {
@@ -97,25 +95,33 @@ function comprobar_datos_registro($usuario, $correo) {
 }
 
 
+function comprobar_confirmar_ingreso($nombre, $clave, $correo) {
+	if (comprobar_datos_registro($nombre, $clave, $correo)) {
+		$carpeta = dirname(__FILE__);
+		if (enviar_correo("Confirmación registro", "Click en el enlace para verificar: <a href='localhost/$carpeta/registro.php?confirmado=true'>Aquí</a>", $correo)) {
+			return true;
+		}
+		return false;
+	} else {
+		return false;
+	}
+}
+
 function ingresar_usuario($nombre, $clave, $correo) {
 	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
-	$clave = password_hash($clave, PASSWORD_DEFAULT);
-	if (str_contains($correo, '@comem.es')) {
-		$query = "insert into medicos values ('$nombre', '$clave', '$correo', NULL, NULL, NULL, NULL, NULL, NULL);";
-		$resul = $bd->query($query);
-		if ($resul->rowCount() != 1) {
-			echo "UH OH";
-		} else {
-			echo "LINEA INSERTADA";
-		}
+
+	$clave_cifrada = password_hash($clave, PASSWORD_DEFAULT);
+
+	if (str_contains($correo, "@comem.es")) {
+		$consulta = "INSERT INTO medicos VALUES('$nombre', '$clave_cifrada', '$correo', NULL, NULL, NULL, NULL, NULL, NULL);";
 	} else {
-		$query = "insert into pacientes values ('$nombre', '$clave', '$correo', NULL);";
-		$resul = $bd->query($query);
-		if ($resul->rowCount() != 1) {
-			echo "UH OH";
-		} else {
-			echo "LINEA INSERTADA";
-		}
+		$consulta = "INSERT INTO pacientes VALUES('$nombre', '$clave_cifrada', '$correo', NULL);";
+	}
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() == 1) {
+		return true;
+	} else {
+		return false;
 	}
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuracion>
+	<host>smtp.mailtrap.io</host>
+    <auth>true</auth>
+    <port>2525</port>
+    <username>9379cbc338f57d</username>
+    <password>09f0d7eb61d4a6</password>
+</configuracion>

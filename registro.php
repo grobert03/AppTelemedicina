@@ -1,7 +1,27 @@
 <?php 
     require_once 'operacionesBD.php';
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        ingresar_usuario($_POST['usuario'], $_POST['pass'], $_POST['correo']);
+        if (comprobar_confirmar_ingreso($_POST['usuario'], $_POST['pass'], $_POST['correo'])) {
+            setcookie("tempUsu", $_POST['usuario'], time() + 3600);
+            setcookie("tempPass", $_POST['pass'], time() + 3600);
+            setcookie("tempCorreo", $_POST['correo'], time() + 3600);
+        } else {
+            $error = true;
+        }
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && $_GET['confirmado'] == true && isset($_COOKIE["tempUsu"])) {
+        if (ingresar_usuario($_COOKIE["tempUsu"], $_COOKIE["tempPass"], $_COOKIE["tempCorreo"])) {
+            setcookie("tempUsu", "", time() - 3600);
+            setcookie("tempPass", "", time() - 3600);
+            setcookie("tempCorreo", "", time() - 3600);
+            header("Location: login.php?registrado=true");
+        } else {
+            setcookie("tempUsu", "", time() - 3600);
+            setcookie("tempPass", "", time() - 3600);
+            setcookie("tempCorreo", "", time() - 3600);
+            header("Location: login.php?registrado=false");
+        }
     }
 
 ?>
@@ -38,8 +58,12 @@
             </div>
             <input type="submit">
         </form>
-
-        <p>La creación de la cuenta se llevará a cabo después de confirmar la operación mediante correo electrónico!</p>
+        <?php 
+            if (isset($error) && $error) {
+                echo "<p style='color: red;'>Datos inválidos o ya en uso!</p>";
+            }
+        ?>
+        
     </section>
 </body>
 </html>
