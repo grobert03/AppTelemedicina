@@ -1,13 +1,13 @@
 <?php 
     require_once "operacionesBD.php";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $usu = comprobar_usuario($_POST['usuario'], $_POST['pass']);
+        //Comprobar de que las credenciales son correctas
+        $usu = comprobar_credenciales($_POST['usuario'], $_POST['pass']);
         if($usu===false){
             $err = true;
             $usuario = $_POST['usuario'];
         }else{
             session_start();
-            // $usu tiene campos correo y codRes, correo 
             $_SESSION['usuario'] = $usu;
             header("Location: inicio.php");
             return;
@@ -33,20 +33,12 @@
     </header>
     <h1>Bienvenido a MediMadrid!</h1>
     <section>
-        <?php if(isset($_GET["redirigido"])){
-			echo "<p>Haga login para continuar</p>";
-		}?>
-		<?php if(isset($err) and $err == true){
-			echo "<p> Revise usuario y contraseña</p>";
-		}?>
-    
-
         <div id="formulario">
             <h2>Acceder a la cuenta:</h2>
             <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
                 <div>
                     <label for="usu">Usuario:</label>
-                    <input id="usu" type="text" name="usuario">
+                    <input id="usu" type="text" name="usuario" value="<?php if (isset($err) && $err === true) {echo $_POST['usuario'];}?>">
                 </div>
                 <div>
                     <label for="pass">Contraseña:</label>
@@ -54,6 +46,7 @@
                 </div>
                 <input type="submit" value="Entrar">
             </form>
+            <?php if (isset($err) && $err === true) {echo '<p style="color: red;">Revise usuario y contraseña!!!</p>';}?>
             <div id="registro">
                 <p>¿No tiene una cuenta?</p>
                 <a href="registro.php">Pulse aquí para registrarse</a>

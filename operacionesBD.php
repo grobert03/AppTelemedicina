@@ -20,61 +20,85 @@ function leer_configuracionBDD($nombre, $esquema) {
 	return $resul;
 }
 
-// Funcion para comprobar que el usuario y la clave están correctas en el login
-function comprobar_usuario($nombre, $clave) {
-    // Verificar la contraseña
-	if (devolver_clave($nombre)) {
-		$clave2 = devolver_clave($nombre)['pass'];
-	} else {
-		return false;
-	}
-    
-	if (!password_verify($clave, $clave2)) {
-		return false;
-	} 
-    // Devolver el usuario y la contraseña
-	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/comprobarBDD.xsd");
+// Función para leer y validar el XML del correo
+function leer_configuracionCorreo() {
+
+}
+
+// Funcion para comprobar los credenciales del login
+function comprobar_credenciales($nombre, $clave) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
-	$ins = "select usuario, pass from pacientes where usuario = '$nombre' 
-			and pass = '$clave2'";
-	$resul = $bd->query($ins);	
-	if($resul->rowCount() === 1){		
-		return $resul->fetch();		
-	}else{
-		$ins = "select usuario, pass from medicos where usuario = '$nombre' and pass = '$clave2'";
-		$resul = $bd->query($ins);	
-		if($resul->rowCount() === 1){		
-		return $resul->fetch();	
+
+	// Comprobar que el usuario existe entre los pacientes
+	$consulta = "select usuario, pass from pacientes where usuario = '$nombre'";
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() === 1) {
+		// Verificar de que la contraseña es correcta
+		$resultado = $resultado->fetch();
+		if (password_verify($clave, $resultado['pass'])) {
+			return $resultado;
 		} else {
-			return FALSE;
+			return false;
+		}
+	} else {
+		// Comprobar que el usuario existe entre los médicos
+		$consulta = "select usuario, pass from medicos where usuario = '$nombre'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() === 1) {
+			// Verificar de que la contraseña es correcta
+			$resultado = $resultado->fetch();
+			if (password_verify($clave, $resultado['pass'])) {
+				return $resultado;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 }
 
-// Funcion para buscar la clave de un usuario
-function devolver_clave($nombre) {
-    $res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/comprobarBDD.xsd");
+// Funcion para comprobar que no se crean usuarios repetidos
+function comprobar_datos_registro($usuario, $correo) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
-    // Verificar en la tabla de pacientes
-	$ins = "select pass from pacientes where usuario = '$nombre'";
-	$resul = $bd->query($ins);	
-	if($resul->rowCount() === 1){		
-		return $resul->fetch();		
-	}else{
-        // Verificar en la tabla de medicos
-        $ins = "select pass from medicos where usuario = '$nombre'";
-	    $resul = $bd->query($ins);
-        if ($resul->rowCount() === 1) {
-            return $resul->fetch();
-        } else {
-            return FALSE;
-        }
-		
+
+	//Comprobar usuario en pacientes
+	$consulta = "Select * from pacientes where usuario = '$usuario'";
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() === 0) {
+		//Comprobar usuario en medicos
+		$consulta = "Select * from medicos where usuario = '$usuario'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() != 0) {
+			return false;
+		}
+	} else {
+		return false;
 	}
+
+	// Comprobar correo en pacientes
+	$consulta = "Select * from pacientes where correo = '$correo'";
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() === 0) {
+		//Comprobar correo en medicos
+		$consulta = "Select * from medicos where correo = '$correo'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() != 0) {
+			return false;
+		}
+	} else {
+		return false;
+	}
+
+	return true;
 }
 
+
 function ingresar_usuario($nombre, $clave, $correo) {
-	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracionBDD.xml", dirname(__FILE__)."/comprobarBDD.xsd");
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
 	$clave = password_hash($clave, PASSWORD_DEFAULT);
 	if (str_contains($correo, '@comem.es')) {
