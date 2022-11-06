@@ -26,8 +26,12 @@
 </head>
 <body>
     <header>
-
+        <div id="left">
+            <img src="./imgs/stethoscope.png" alt="stethoscope">
+            <h2>MediMadrid</h2>
+        </div>
     </header>
+    <h1>Bienvenido a MediMadrid!</h1>
     <section>
         <?php if(isset($_GET["redirigido"])){
 			echo "<p>Haga login para continuar</p>";
@@ -35,21 +39,38 @@
 		<?php if(isset($err) and $err == true){
 			echo "<p> Revise usuario y contraseña</p>";
 		}?>
-    <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-        <div>
-            <label for="usu">Usuario:</label>
-            <input id="usu" type="text" name="usuario">
+    
+
+        <div id="formulario">
+            <h2>Acceder a la cuenta:</h2>
+            <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
+                <div>
+                    <label for="usu">Usuario:</label>
+                    <input id="usu" type="text" name="usuario">
+                </div>
+                <div>
+                    <label for="pass">Contraseña:</label>
+                    <input id="pass" type="password" name="pass">
+                </div>
+                <input type="submit" value="Entrar">
+            </form>
+            <div id="registro">
+                <p>¿No tiene una cuenta?</p>
+                <a href="registro.php">Pulse aquí para registrarse</a>
+            </div>
         </div>
-        <div>
-            <label for="pass">Contraseña:</label>
-            <input id="pass" type="password" name="pass">
+
+        <div id="buscar-receta">
+            
+            <h2>Acceder a su receta:</h2>
+            <p>Puede acceder a su receta sin cuenta introduciendo el identificador de la misma:</p>
+           
+            <form action="receta.php" method="POST">
+                <input type="text" name="identificador">
+                <input type="submit" value="Buscar">
+            </form>
         </div>
-        <input type="submit" value="Entrar">
-    </form>
-    <div id="registro">
-        <p>¿No tiene una cuenta?</p>
-        <a href="registro.php">Pulse aquí para registrarse</a>
-    </div>
     </section>
-</body>
+
+</body> 
 </html>
