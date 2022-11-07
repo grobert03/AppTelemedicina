@@ -103,7 +103,7 @@ function comprobar_datos_registro($usuario, $correo) {
 function comprobar_confirmar_ingreso($nombre, $clave, $correo, $cod_activacion) {
 	if (comprobar_datos_registro($nombre, $correo)) {
 		$carpeta = $_SERVER['PHP_SELF'] ;
-		if (enviar_correo("Confirmacion registro", "Click en el enlace para verificar: <a href='http:localhost$carpeta?confirmado=$cod_activacion'>Activar</a>", $correo)) {
+		if (enviar_correo_verificacion("Confirmacion registro", "Click en el enlace para verificar: <a href='http:localhost$carpeta?confirmado=$cod_activacion'>Activar</a>", $correo)) {
 			return true;
 		}
 		return false;
