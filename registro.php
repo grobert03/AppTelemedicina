@@ -28,9 +28,7 @@
             setcookie("cod_act", "", time() - 3600);
             header("Location: login.php?registrado=false");
         }
-    } else {
-        header("Location: login.php?registrado=false");
-    }
+    } 
 
 ?>
 <!DOCTYPE html>

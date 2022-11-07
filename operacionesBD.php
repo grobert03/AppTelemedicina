@@ -29,20 +29,21 @@ function comprobar_credenciales($nombre, $clave) {
 	$bd = new PDO($res[0], $res[1], $res[2]);
 
 	// Comprobar que el usuario existe entre los pacientes
-	$consulta = "select usuario, pass from pacientes where usuario = '$nombre'";
+	$consulta = "select * from pacientes where usuario = '$nombre'";
 	$resultado = $bd->query($consulta);
 
 	if ($resultado->rowCount() === 1) {
 		// Verificar de que la contraseña es correcta
 		$resultado = $resultado->fetch();
 		if (password_verify($clave, $resultado['pass'])) {
+			
 			return $resultado;
 		} else {
 			return false;
 		}
 	} else {
 		// Comprobar que el usuario existe entre los médicos
-		$consulta = "select usuario, pass from medicos where usuario = '$nombre'";
+		$consulta = "select * from medicos where usuario = '$nombre'";
 		$resultado = $bd->query($consulta);
 		if ($resultado->rowCount() === 1) {
 			// Verificar de que la contraseña es correcta
@@ -118,9 +119,9 @@ function ingresar_usuario($nombre, $clave, $correo) {
 	$clave_cifrada = password_hash($clave, PASSWORD_DEFAULT);
 
 	if (str_contains($correo, "@comem.es")) {
-		$consulta = "INSERT INTO medicos VALUES('$nombre', '$clave_cifrada', '$correo', NULL, NULL, NULL, NULL, NULL, NULL);";
+		$consulta = "INSERT INTO medicos VALUES('$nombre', '$clave_cifrada', '$correo', 0, NULL, NULL, NULL, NULL, NULL, NULL);";
 	} else {
-		$consulta = "INSERT INTO pacientes VALUES('$nombre', '$clave_cifrada', '$correo', NULL);";
+		$consulta = "INSERT INTO pacientes VALUES('$nombre', '$clave_cifrada', '$correo', 0, NULL);";
 	}
 	$resultado = $bd->query($consulta);
 	if ($resultado->rowCount() == 1) {
