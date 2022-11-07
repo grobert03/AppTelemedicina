@@ -56,7 +56,6 @@ function enviar_correo($asunto, $cuerpo, $destinatario) {
 	  echo "Error" . $mail->ErrorInfo;
       return false;
 	} else {
-	  echo "Enviado";
       return true;
 	}
 }

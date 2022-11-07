@@ -1,27 +1,35 @@
 <?php 
     require_once 'operacionesBD.php';
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if (comprobar_confirmar_ingreso($_POST['usuario'], $_POST['pass'], $_POST['correo'])) {
+        $cod_act = "act".rand(1000, 99999);
+        setcookie("cod_act", $cod_act, time() + 3600);
+        if (comprobar_confirmar_ingreso($_POST['usuario'], $_POST['pass'], $_POST['correo'], $cod_act)) {
+            $correo_enviado = true;
             setcookie("tempUsu", $_POST['usuario'], time() + 3600);
             setcookie("tempPass", $_POST['pass'], time() + 3600);
             setcookie("tempCorreo", $_POST['correo'], time() + 3600);
         } else {
             $error = true;
+            setcookie("cod_act", "", time() - 3600);
         }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && $_GET['confirmado'] == true && isset($_COOKIE["tempUsu"])) {
+    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && isset($_COOKIE["cod_act"]) && $_GET['confirmado'] == $_COOKIE["cod_act"]) {
         if (ingresar_usuario($_COOKIE["tempUsu"], $_COOKIE["tempPass"], $_COOKIE["tempCorreo"])) {
             setcookie("tempUsu", "", time() - 3600);
             setcookie("tempPass", "", time() - 3600);
             setcookie("tempCorreo", "", time() - 3600);
+            setcookie("cod_act", "", time() - 3600);
             header("Location: login.php?registrado=true");
         } else {
             setcookie("tempUsu", "", time() - 3600);
             setcookie("tempPass", "", time() - 3600);
             setcookie("tempCorreo", "", time() - 3600);
+            setcookie("cod_act", "", time() - 3600);
             header("Location: login.php?registrado=false");
         }
+    } else {
+        header("Location: login.php?registrado=false");
     }
 
 ?>
@@ -61,6 +69,10 @@
         <?php 
             if (isset($error) && $error) {
                 echo "<p style='color: red;'>Datos inválidos o ya en uso!</p>";
+            }
+
+            if (isset($correo_enviado) && $correo_enviado) {
+                echo "<p style='color: yellow;'>Revisa el correo electrónico</p>";
             }
         ?>
         

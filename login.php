@@ -33,9 +33,9 @@
     </header>
     <h1>Bienvenido a MediMadrid!</h1>
     <?php 
-        if (isset($_GET['registrado']) && $_GET['registrado'] == true) {
+        if (isset($_GET['registrado']) && $_GET['registrado'] == 'true') {
             echo "<h3 style='color: yellow;'>Registro completo!</h3>";
-        } else if ($_GET['registrado'] == false) {
+        } else if (isset($_GET['registrado']) && $_GET['registrado'] == 'false') {
             echo "<h3 style='color: yellow;'>Fallo en el registro!</h3>";
         }
     ?>
@@ -57,6 +57,10 @@
             <div id="registro">
                 <p>¿No tiene una cuenta?</p>
                 <a href="registro.php">Pulse aquí para registrarse</a>
+            </div>
+            <div id="nuevo-pass">
+                <p>¿Ha olvidado su contraseña?</p>
+                <a href="cambiar_pass.php">Cambia tu contraseña</a>
             </div>
         </div>
 
