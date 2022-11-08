@@ -130,3 +130,26 @@ function ingresar_usuario($nombre, $clave, $correo) {
 		return false;
 	}
 }
+
+function guardar_mensaje($remitente, $destinatario, $asunto, $contenido, $fecha_envio) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+}
+
+function mostrar_mensajes($destinatario) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$usu = $_SESSION['usuario']['usuario'];
+
+	$consulta = "SELECT * FROM mensajes where destinatario = '$usu'";
+
+	$datos = $bd->query($consulta);
+
+	if ($datos->rowCount() == 0) {
+		return false;
+	} else {
+		return $datos->fetchAll();
+	}
+}
