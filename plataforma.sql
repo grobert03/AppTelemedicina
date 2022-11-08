@@ -18,6 +18,7 @@ CREATE TABLE pacientes (
     CONSTRAINT PK_Paciente PRIMARY KEY (usuario, correo)
 );
 
+
 CREATE TABLE medicos (
     usuario varchar(20) NOT NULL,
     pass varchar(255) NOT NULL,

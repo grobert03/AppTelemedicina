@@ -131,9 +131,48 @@ function ingresar_usuario($nombre, $clave, $correo) {
 	}
 }
 
-function guardar_mensaje($remitente, $destinatario, $asunto, $contenido, $fecha_envio) {
+function comprobar_destinatarios_validos($destinatarios) {
 	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
+	if (!str_contains($destinatarios, ',')) {
+		$destinatarios = $destinatarios + ',';
+	}
+
+	$destinatarios = explode(',', $destinatarios);
+
+	for ($i = 0; $i < sizeof($destinatarios); $i++) {
+		$destino = $destinatarios[$i];
+
+		$consulta = "SELECT * FROM medicos WHERE usuario = '$destino'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() == 0) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function enviar_mensaje($destinatarios, $asunto, $contenido) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+	if (!str_contains($destinatarios, ',')) {
+		$destinatarios = $destinatarios + ',';
+	}
+
+	$destinatarios = explode(',', $destinatarios);
+	$usu = $_SESSION['usuario']['usuario'];
+	$fecha = date("Y-m-d");
+	$hora = date("H:i:s");
+
+	for ($i = 0; $i < sizeof($destinatarios); $i++) {
+		$destino = $destinatarios[$i];
+		$consulta = "INSERT INTO mensajes (remitente, destinatario, asunto, contenido, fecha_envio, hora_envio, leido) VALUES ('$usu', '$destino', '$asunto', '$contenido', cast('$fecha' AS DATE), cast('$hora' AS TIME), 0);";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() == 0) {
+			return false;
+		}
+	}
+	return true;
 
 }
 
@@ -151,5 +190,35 @@ function mostrar_mensajes($destinatario) {
 		return false;
 	} else {
 		return $datos->fetchAll();
+	}
+}
+
+function devolver_mensaje($id) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$usu = $_SESSION['usuario']['usuario'];
+
+	$consulta = "SELECT * FROM mensajes where id_mensaje = $id and destinatario = '$usu'";
+	$datos = $bd->query($consulta);
+
+	if ($datos -> rowCount() == 0) {
+		return false;
+	} else {
+		return $datos->fetch();
+	}
+}
+
+function actualizar_mensaje_leido($id) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "UPDATE mensajes SET leido = TRUE WHERE id_mensaje = $id";
+	$datos = $bd->query($consulta);
+
+	if ($datos -> rowCount() == 0) {
+		return false;
+	} else {
+		return true;
 	}
 }

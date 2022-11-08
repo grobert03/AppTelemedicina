@@ -1,10 +1,17 @@
 <?php 
     require_once 'sesiones.php';
-    require_once 'operacionesCorreo.php';
+    require_once 'operacionesBD.php';
     comprobar_sesion();
+    $envio = true;
+    $error_destinatarios = false;
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        enviar_correo($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje']);
+        if (comprobar_destinatarios_validos($_POST['destinatarios'])) {
+            $envio = enviar_mensaje($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje']);
+        } else {
+            $error_destinatarios = true;
+        }
+        
         
     }
 ?>
@@ -46,6 +53,15 @@
             </div>
             <input type="submit">
         </form>
+        <?php 
+            if ($error_destinatarios) {
+                echo "<h3 style='color: red'>Comprueba que el nombre de los destinatarios es correcto!</h3>";
+            }
+
+            if (!$envio) {
+                echo "<h3 style='color: red'>FALLO EN EL ENVIO</h3>";
+            }
+        ?>
     </div>
 </body>
 </html>

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+html, body {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background-image: linear-gradient(to right top, #7490c3, #7794ca, #7a99d0, #7e9dd7, #81a2de, #7aace8, #72b5f0, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);    
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+#right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+header img {
+    height: 30px;
+    width: 30px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header a {
+    text-decoration: none;
+    color: white;
+}
+
+#contenedor {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#contenido {
+    width: 30%;
+    max-height: 70%;
+    border: 3px solid white;
+    border-radius: 1em;
+    overflow-y: scroll;
+    padding: 20px;
+    background-color: white;
+}
+
+.mensaje a {
+    color: red;
+}
+
+.mensaje {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 9px;
+  }
+  
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+ 
