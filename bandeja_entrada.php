@@ -28,11 +28,12 @@
         </div>
     </header>
     <h1>Bandeja de entrada de: <?php echo $_SESSION['usuario']['usuario'] ?></h1>
+    <div id="contenedor-boton"><a href="inicio.php"><button>Inicio</button></a></div>
     <div id="contenedor">
         <div id="contenido">
         <?php 
             if ($mis_mensajes == false) {
-                echo "<h1>No has recibido ningun mensaje!</h1>";
+                echo "<h1 style='color: red;'>No has recibido ningun mensaje!</h1>";
             } else {
                 for ($i = 0; $i < sizeof($mis_mensajes); $i++) {
                     $remitente = $mis_mensajes[$i]['remitente'];

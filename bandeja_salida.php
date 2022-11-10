@@ -28,6 +28,7 @@
         </div>
     </header>
     <h1>Bandeja de salida de: <?php echo $_SESSION['usuario']['usuario'] ?></h1>
+    <div id="contenedor-boton"><a href="inicio.php"><button>Inicio</button></a></div>
     <div id="contenedor">
         <div id="contenido">
         <?php 
