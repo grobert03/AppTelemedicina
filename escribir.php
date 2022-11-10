@@ -55,7 +55,7 @@
         </form>
         <?php 
             if ($error_destinatarios) {
-                echo "<h3 style='color: red'>Comprueba que el nombre de los destinatarios es correcto!</h3>";
+                echo "<h3 style='color: red'>Comprueba que el nombre de los destinatarios es correcto! Asegúrate de que estás escribiendo a un médico!</h3>";
             }
 
             if (!$envio) {

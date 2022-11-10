@@ -2,11 +2,18 @@
     require_once 'sesiones.php';
     require_once 'operacionesBD.php';
     comprobar_sesion();
-    if (isset($_GET['id'])) {
-        $mensaje = devolver_mensaje($_GET['id']);
-        if (!$mensaje) {
-            header('Location: bandeja_entrada.php');
-        } 
+    if (isset($_GET['id']) && isset($_GET['modo'])) {
+        if ($_GET['modo'] == 'entrada') {
+            $mensaje = devolver_mensaje_entrada($_GET['id']);
+            if (!$mensaje) {
+                header('Location: bandeja_entrada.php');
+            } 
+        } else {
+            $mensaje = devolver_mensaje_salida($_GET['id']);
+            if (!$mensaje) {
+                header('Location: bandeja_entrada.php');
+            } 
+        }
     } else {
         header('Location: inicio.php');
     }

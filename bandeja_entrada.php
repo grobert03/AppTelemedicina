@@ -3,7 +3,7 @@
     require_once 'operacionesBD.php';
     comprobar_sesion();
     
-    $mis_mensajes = mostrar_mensajes($_SESSION['usuario']['usuario']);
+    $mis_mensajes = mostrar_mensajes_recibidos($_SESSION['usuario']['usuario']);
 
 ?>
 
@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bandeja de entrada</title>
-    <link rel="stylesheet" href="estilos/entrada.css">
+    <link rel="stylesheet" href="estilos/bandeja.css">
 </head>
 <body>
     <header>
@@ -55,7 +55,7 @@
                     echo "<p>Hora: $hora</p>";
                     echo "<p style='color: gray'>De: $remitente</p>";
                     echo "<p>$contenido...</p>";
-                    echo "<a href='ver_mensaje.php?id=$id'>Ver mensaje completo</a>";
+                    echo "<a href='ver_mensaje.php?id=$id&modo=entrada'>Ver mensaje completo</a>";
                     echo "</div>";
                 }
             }
