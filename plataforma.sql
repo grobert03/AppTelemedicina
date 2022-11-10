@@ -14,7 +14,7 @@ CREATE TABLE pacientes (
     pass varchar(255) NOT NULL,
     correo varchar(80) NOT NULL,
     rol int DEFAULT 0, 
-    foto BLOB,
+    foto MEDIUMBLOB,
     CONSTRAINT PK_Paciente PRIMARY KEY (usuario, correo)
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE medicos (
     pass varchar(255) NOT NULL,
     correo varchar(80) NOT NULL,
     rol int DEFAULT 0, 
-    foto BLOB,
+    foto MEDIUMBLOB,
     nr_colegiado varchar(9),
     especialidad varchar(50),
     cv BLOB,
@@ -46,9 +46,9 @@ CREATE TABLE mensajes (
 );
 
 -- Contraseña: robert
-insert into pacientes(usuario, pass, correo, rol, foto) VALUES ('grobert47', '$2y$10$2K.duavabLBa3uyle3vXPOdqIZyXMtisAkFO1XXwFtd8dfv.1JRWu', 'gainarobert47@gmail.com', 1, NULL);
+insert into pacientes(usuario, pass, correo, rol, foto) VALUES ('grobert47', '$2y$10$2K.duavabLBa3uyle3vXPOdqIZyXMtisAkFO1XXwFtd8dfv.1JRWu', 'gainarobert47@gmail.com', 1, LOAD_FILE('imgs/user.png'));
 -- Contraseña: paciente2
-insert into pacientes(usuario, pass, correo, rol, foto) VALUES ('paciente2', '$2y$10$33nKub9XfyA/RZ4cetDKPufY1PS4qRSSKwKPLLxdv28h5QdGWL/6C', 'paciente2@gmail.com', 1, NULL);
+insert into pacientes(usuario, pass, correo, rol, foto) VALUES ('paciente2', '$2y$10$33nKub9XfyA/RZ4cetDKPufY1PS4qRSSKwKPLLxdv28h5QdGWL/6C', 'paciente2@gmail.com', 1, LOAD_FILE('imgs/user.png'));
 
 -- Contraseña: ivan; floppa
 insert into medicos VALUES ('ivan03', '$2y$10$BKMhfVbuz6je4TqOMulPn.wN2BTRr54pfmZJXbjJ0xSygXv7tdd0m', 'ivancheca@comem.es', 0, NULL, NULL, NULL, NULL, NULL, 0)

@@ -60,7 +60,7 @@
             </div>
             <div id="nuevo-pass">
                 <p>¿Ha olvidado su contraseña?</p>
-                <a href="cambiar_pass.php">Cambia tu contraseña</a>
+                <a href="cambiar_pass.php"><p>Cambia tu contraseña<p></a>
             </div>
         </div>
 

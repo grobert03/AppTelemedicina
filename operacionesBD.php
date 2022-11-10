@@ -249,3 +249,20 @@ function actualizar_mensaje_leido($id) {
 		return true;
 	}
 }
+
+function cambiar_pass($usuario, $nuevo_pass) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$nuevo_pass = password_hash($nuevo_pass, PASSWORD_DEFAULT);
+
+	$consulta = "UPDATE medicos SET pass = '$nuevo_pass' WHERE usuario = '$usuario'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 0) {
+		return false;
+	} else {
+		return true;
+	}
+}

@@ -56,7 +56,7 @@
                     echo "<p>Hora: $hora</p>";
                     echo "<p style='color: gray'>De: $remitente</p>";
                     echo "<p>$contenido...</p>";
-                    echo "<a href='ver_mensaje.php?id=$id&modo=entrada'>Ver mensaje completo</a>";
+                    echo "<a href='ver_mensaje.php?id=$id&modo=entrada'>Ver mensaje completo/Responder</a>";
                     echo "</div>";
                 }
             }

@@ -45,6 +45,9 @@
         if ($mensaje['leido'] == false) {
             actualizar_mensaje_leido($_GET['id']);
         }
+        
+        
+    
     ?>
 </body>
 </html>
