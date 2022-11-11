@@ -71,12 +71,10 @@ function comprobar_datos_registro($usuario, $correo) {
 		//Comprobar usuario en medicos
 		$consulta = "Select * from medicos where usuario = '$usuario'";
 		$resultado = $bd->query($consulta);
-		if ($resultado->rowCount() != 0) {
+		if ($resultado->rowCount() === 0) {
 			return false;
 		}
-	} else {
-		return false;
-	}
+	} 
 
 	// Comprobar correo en pacientes
 	if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -89,13 +87,10 @@ function comprobar_datos_registro($usuario, $correo) {
 		//Comprobar correo en medicos
 		$consulta = "Select * from medicos where correo = '$correo'";
 		$resultado = $bd->query($consulta);
-		if ($resultado->rowCount() != 0) {
+		if ($resultado->rowCount() === 0) {
 			return false;
 		}
-	} else {
-		return false;
-	}
-
+	} 
 	return true;
 }
 
@@ -261,7 +256,13 @@ function cambiar_pass($usuario, $nuevo_pass) {
 	$resultado = $bd->query($consulta);
 
 	if ($resultado->rowCount() == 0) {
-		return false;
+		$consulta = "UPDATE pacientes SET pass = '$nuevo_pass' WHERE usuario = '$usuario'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() == 0) {
+			return false;
+		} else {
+			return true;
+		}
 	} else {
 		return true;
 	}
