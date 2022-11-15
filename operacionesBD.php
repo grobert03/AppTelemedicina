@@ -267,3 +267,17 @@ function cambiar_pass($usuario, $nuevo_pass) {
 		return true;
 	}
 }
+
+function ver_receta($codigo) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "SELECT * FROM RECETAS WHERE id_receta = '$codigo'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 1) {
+		return $resultado->fetch();
+	}
+	return false;
+}

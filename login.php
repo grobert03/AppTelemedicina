@@ -70,7 +70,7 @@
             <p>Puede acceder a su receta sin cuenta introduciendo el identificador de la misma:</p>
            
             <form action="receta.php" method="POST">
-                <input type="text" name="identificador">
+                <input type="text" name="codigo">
                 <input type="submit" value="Buscar">
             </form>
         </div>
