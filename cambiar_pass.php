@@ -27,6 +27,7 @@
             $cod_act = $_SESSION['usu_cambio']['activacion'];
             header("Location: cambio.php?activacion=$cod_act");
         } else {
+            echo "<h1 style='color: red'>No has confirmado la operacion por correo! Intenta de nuevo</h1>";
             session_destroy();
         }
     } 

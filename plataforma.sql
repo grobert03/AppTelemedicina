@@ -45,6 +45,14 @@ CREATE TABLE mensajes (
     leido boolean
 );
 
+CREATE TABLE recetas (
+    id_receta varchar(20) PRIMARY KEY,
+    medicamento varchar(30) NOT NULL,
+    paciente varchar(20) NOT NULL,
+    medico varchar(20) NOT NULL,
+    principio_activo varchar(10) NOT NULL,
+    dosis varchar(20) NOT NULL
+);
 -- Contraseña: robert
 insert into pacientes(usuario, pass, correo, rol, foto) VALUES ('grobert47', '$2y$10$2K.duavabLBa3uyle3vXPOdqIZyXMtisAkFO1XXwFtd8dfv.1JRWu', 'gainarobert47@gmail.com', 1, LOAD_FILE('imgs/user.png'));
 -- Contraseña: paciente2
@@ -59,3 +67,4 @@ insert into mensajes (remitente, destinatario, asunto, contenido, fecha_envio, h
 insert into mensajes (remitente, destinatario, asunto, contenido, fecha_envio, hora_envio, leido) VALUES ('grobert47', 'floppa', 'Hola2', 'Hola buenas 2', '2022-11-08', '08:54:07', false);
 
 insert into mensajes (remitente, destinatario, asunto, contenido, fecha_envio, hora_envio, leido) VALUES ('paciente2', 'floppa', 'Hola2', 'Hola buenas 2', '2022-11-08', '08:35:07', true);
+

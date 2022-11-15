@@ -1,19 +1,18 @@
 <?php 
     require_once 'operacionesBD.php';
     session_start();
-    var_dump($_SESSION);
-    if (!isset($_SESSION['usu_cambio']['usuario']) || $_GET['activacion'] != $_SESSION['usu_cambio']['activacion']) {
-        // header("Location: login.php");
-        echo "OH NOOO";
-    } 
+
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if (!isset($_SESSION['usu_cambio']['usuario']) || $_GET['activacion'] != $_SESSION['usu_cambio']['activacion']) {
+            header("Location: login.php");
+        } 
+    }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['pass'] == $_POST['confirmar']) {
         cambiar_pass($_SESSION['usu_cambio']['usuario'], $_POST['pass']);
         echo "<h1>Contraseña cambiada!";
         session_destroy();
-    } else {
-        $error = true;
-    }
+    } 
 
 ?>
 

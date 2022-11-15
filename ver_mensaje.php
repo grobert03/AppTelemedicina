@@ -2,23 +2,32 @@
     require_once 'sesiones.php';
     require_once 'operacionesBD.php';
     comprobar_sesion();
-    if (isset($_GET['id']) && isset($_GET['modo'])) {
-        if ($_GET['modo'] == 'entrada') {
-            $mensaje = devolver_mensaje_entrada($_GET['id']);
-            if (!$mensaje) {
-                header('Location: bandeja_entrada.php');
-            } 
-        } else {
-            $mensaje = devolver_mensaje_salida($_GET['id']);
-            if (!$mensaje) {
-                header('Location: bandeja_entrada.php');
-            } 
-        }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        enviar_mensaje($_POST['remitente'], $_SESSION['usuario']['usuario'] ,$_POST['content']);
+        echo "<h1>RESPUESTA ENVIADA!</h1>";
+        header("Location: bandeja_salida.php");
     } else {
-        header('Location: inicio.php');
+        if (isset($_GET['id']) && isset($_GET['modo'])) {
+            if ($_GET['modo'] == 'entrada') {
+                $mensaje = devolver_mensaje_entrada($_GET['id']);
+                $entrada = true;
+                if (!$mensaje) {
+                    header('Location: bandeja_entrada.php');
+                } 
+            } else {
+                $mensaje = devolver_mensaje_salida($_GET['id']);
+                if (!$mensaje) {
+                    header('Location: bandeja_entrada.php');
+                } 
+            }
+        } else {
+            header('Location: inicio.php');
+        }
     }
-    
 
+    
+    
+    
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +55,18 @@
             actualizar_mensaje_leido($_GET['id']);
         }
         
+        if (isset($entrada) && $entrada) {
+            echo "<h2>Respuesta:</h2>";
+            echo "<div>";
+            echo "<h3>Re:$asunto</h3>";
+            echo "<p>Para: $remitente</p>";
+            echo "<form action='ver_mensaje.php' method='POST'>";
+            echo "<input type='hidden' name='remitente' value='$remitente'>";
+            echo "<textarea name='content' rows='4' columns='30'></textarea>";
+            echo "<input type='submit' value='Responder'>";
+            echo "</form>";
+            echo "</div>";
+        }
         
     
     ?>
