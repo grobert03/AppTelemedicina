@@ -281,3 +281,65 @@ function ver_receta($codigo) {
 	}
 	return false;
 }
+
+function comprobar_es_paciente($paciente) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "SELECT * FROM pacientes WHERE usuario = '$paciente'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function crear_receta($medicamento, $paciente, $pactivo, $dosis) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$id = "rec".rand(10000, 99999);
+	$medico = $_SESSION['usuario']['usuario'];
+
+	$consulta = "INSERT into recetas values('$id', '$medicamento', '$paciente', '$medico', '$pactivo', '$dosis');";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 1) {
+		return true;
+	}
+	return false;
+}
+
+function ver_mis_recetas($usuario) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "SELECT * FROM recetas where medico = '$usuario'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 0) {
+		return $resultado->fetchAll();
+	} else {
+		return false;
+	}
+}
+
+function borrar_receta($id) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "DELETE FROM recetas where id_receta = '$id'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}

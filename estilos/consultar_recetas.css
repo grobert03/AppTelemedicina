@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+html, body {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+   
+}
+
+body {
+    background-image: linear-gradient(to right top, #7490c3, #7794ca, #7a99d0, #7e9dd7, #81a2de, #7aace8, #72b5f0, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);    
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+#right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+header img {
+    height: 30px;
+    width: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+#contenedor {
+    width: 97.5%;
+    height: 70%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.ver, .escribir {
+    height: 100%;
+    flex: 1;
+    background-color: white;
+    border-radius: 1.5em;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+.escribir {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.escribir form {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.escribir form div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.ver {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.receta {
+    border-bottom: 1px solid gray;
+    padding-bottom: 5px;
+}
+
+#boton {
+    border: none;
+    background-color: red;
+    color: white;
+    border-radius: 1.25em;
+    font-weight: bold;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 9px;
+  }
+  
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+ 

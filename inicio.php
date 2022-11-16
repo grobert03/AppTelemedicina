@@ -38,8 +38,10 @@
         ?>
         <button><a href="bandeja_entrada.php">Bandeja de entrada</a></button>
         <button><a href="bandeja_salida.php">Bandeja de salida</a></button>
-        <button style="background-color: green"><a href="recetas.php">Recetas</a></button>
         <?php 
+            if ($_SESSION['usuario']['tipo'] == 'medico') {
+                echo '<button style="background-color: green"><a href="consultar_recetas.php">Recetas</a></button>';
+            }
             if ($_SESSION['usuario']['rol'] == 1) {
                 echo "<button style='background-color: red;'><a href='admin.php'>Zona admin</a></button>";
             }

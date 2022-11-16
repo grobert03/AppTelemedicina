@@ -50,7 +50,7 @@ CREATE TABLE recetas (
     medicamento varchar(30) NOT NULL,
     paciente varchar(20) NOT NULL,
     medico varchar(20) NOT NULL,
-    principio_activo varchar(10) NOT NULL,
+    principio_activo varchar(30) NOT NULL,
     dosis varchar(20) NOT NULL
 );
 -- Contraseña: robert

@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+html, body {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background-image: linear-gradient(to right top, #7490c3, #7794ca, #7a99d0, #7e9dd7, #81a2de, #7aace8, #72b5f0, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);    
+    font-family: 'Poppins', sans-serif;
+}
+
+
+header {
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+header img {
+    height: 30px;
+    width: 30px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#contenedor {
+    width: 97.5%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#receta {
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 1.25em;
+    height: 50%;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    height: 40px;
+    width: 180px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 1.25em;
+
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+#boton {
+    width: 10%;
+    margin: 0 auto;
+}
