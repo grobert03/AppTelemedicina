@@ -3,10 +3,10 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Comprobar de que las credenciales son correctas
         $usu = comprobar_credenciales($_POST['usuario'], $_POST['pass']);
-        if($usu===false){
+        if ($usu===false) {
             $err = true;
             $usuario = $_POST['usuario'];
-        }else{
+        }else {
             session_start();
             $_SESSION['usuario'] = $usu;
             header("Location: inicio.php");

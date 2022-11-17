@@ -147,8 +147,6 @@ function enviar_mensaje($destinatarios, $asunto, $contenido) {
 	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);
 	
-
-	$destinatarios = explode(',', $destinatarios);
 	$usu = $_SESSION['usuario']['usuario'];
 	$fecha = date("Y-m-d");
 	$hora = date("H:i:s");
@@ -341,5 +339,35 @@ function borrar_receta($id) {
 		return true;
 	} else {
 		return false;
+	}
+}
+
+function devolver_medicos() {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "SELECT usuario FROM medicos";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 0) {
+		return $resultado->fetchAll();
+	} else {
+		return false;
+	}
+}
+
+function comprobar_carga($destinatario) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$consulta = "SELECT * FROM mensajes WHERE destinatario = '$destinatario' AND leido = 0";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 20) {
+		return false;
+	} else {
+		return true;
 	}
 }

@@ -2,17 +2,14 @@
     require_once 'sesiones.php';
     require_once 'operacionesBD.php';
     comprobar_sesion();
-    $envio = true;
-    $error_destinatarios = false;
-
+    $medicos = devolver_medicos();
+    
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if (comprobar_destinatarios_validos($_POST['destinatarios'])) {
-            $envio = enviar_mensaje($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje']);
+        if (!enviar_mensaje($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje'])) {
+            $envio = false;
         } else {
-            $error_destinatarios = true;
+            $envio = true;
         }
-        
-        
     }
 ?>
 
@@ -40,8 +37,20 @@
     <div id="content">
         <form action="escribir.php" method="POST">
             <div>
-                <label for="destino">Destinatario(s):</label>
-                <input id="destino" type="text" name="destinatarios" placeholder="separados mediante ,">
+                <p>Destinatario(s):</p>
+                <?php 
+                    for ($i = 0; $i < sizeof($medicos); $i++) {
+                        $destinatario = $medicos[$i][0];
+                        
+                        if (comprobar_carga($destinatario)) {
+                            echo "<input type='checkbox' id='$destinatario' name='destinatarios[]' value='$destinatario'>";
+                            echo "<label for='$destinatario'>$destinatario</label>";
+                        } else {
+                            echo "<span style='color: red'> $destinatario (no disponible)</span>";
+                        }
+                    }
+                    
+                ?>
             </div>
             <div>
                 <label for="asunto">Asunto:</label>
@@ -54,12 +63,11 @@
             <input type="submit">
         </form>
         <?php 
-            if ($error_destinatarios) {
-                echo "<h3 style='color: red'>Comprueba que el nombre de los destinatarios es correcto! Asegúrate de que estás escribiendo a un médico!</h3>";
-            }
 
-            if (!$envio) {
+            if (isset($envio) && !$envio) {
                 echo "<h3 style='color: red'>FALLO EN EL ENVIO</h3>";
+            } else if (isset($envio) && $envio) {
+                echo "<h3 style='color: green'>MENSAJE ENVIADO!</h3>";
             }
         ?>
     </div>
