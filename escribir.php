@@ -4,7 +4,9 @@
     comprobar_sesion();
     $medicos = devolver_medicos();
     
-    if ($_SERVER['usuario']['tipo'] == 'medico')
+    if ($_SESSION['usuario']['tipo'] == 'medico') {
+        header("Location: inicio.php");
+    }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (!enviar_mensaje($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje'])) {
