@@ -1,4 +1,5 @@
 <?php 
+   
     require_once "operacionesBD.php";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Comprobar de que las credenciales son correctas

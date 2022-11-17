@@ -71,23 +71,24 @@ function comprobar_datos_registro($usuario, $correo) {
 		//Comprobar usuario en medicos
 		$consulta = "Select * from medicos where usuario = '$usuario'";
 		$resultado = $bd->query($consulta);
-		if ($resultado->rowCount() === 0) {
+		if ($resultado->rowCount() != 0) {
 			return false;
 		}
 	} 
-
+	
 	// Comprobar correo en pacientes
 	if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
 		return false;
 	}
 
+	
 	$consulta = "Select * from pacientes where correo = '$correo'";
 	$resultado = $bd->query($consulta);
 	if ($resultado->rowCount() === 0) {
 		//Comprobar correo en medicos
 		$consulta = "Select * from medicos where correo = '$correo'";
 		$resultado = $bd->query($consulta);
-		if ($resultado->rowCount() === 0) {
+		if ($resultado->rowCount() != 0) {
 			return false;
 		}
 	} 

@@ -1,31 +1,29 @@
 <?php 
     require_once 'operacionesBD.php';
+    session_start();
+
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $cod_act = "act".rand(1000, 99999);
-        setcookie("cod_act", $cod_act, time() + 3600);
+        
+        $_SESSION['registro']['codigo'] = $cod_act;
+    
         if (comprobar_confirmar_ingreso($_POST['usuario'], $_POST['pass'], $_POST['correo'], $cod_act)) {
             $correo_enviado = true;
-            setcookie("tempUsu", $_POST['usuario'], time() + 3600);
-            setcookie("tempPass", $_POST['pass'], time() + 3600);
-            setcookie("tempCorreo", $_POST['correo'], time() + 3600);
+            $_SESSION['registro']['usuario'] = $_POST['usuario'];
+            $_SESSION['registro']['pass'] = $_POST['pass'];
+            $_SESSION['registro']['correo'] = $_POST['correo'];
         } else {
             $error = true;
-            setcookie("cod_act", "", time() - 3600);
+            $_SESSION = array();
+            session_destroy();	// eliminar la sesion
+            setcookie(session_name(), 123, time() - 10000);
         }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && isset($_COOKIE["cod_act"]) && $_GET['confirmado'] == $_COOKIE["cod_act"]) {
-        if (ingresar_usuario($_COOKIE["tempUsu"], $_COOKIE["tempPass"], $_COOKIE["tempCorreo"])) {
-            setcookie("tempUsu", "", time() - 3600);
-            setcookie("tempPass", "", time() - 3600);
-            setcookie("tempCorreo", "", time() - 3600);
-            setcookie("cod_act", "", time() - 3600);
+    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && $_GET['confirmado'] == $_SESSION['registro']['codigo']) {
+        if (ingresar_usuario($_SESSION['registro']['usuario'], $_SESSION['registro']['pass'], $_SESSION['registro']['correo'])) {
             header("Location: login.php?registrado=true");
         } else {
-            setcookie("tempUsu", "", time() - 3600);
-            setcookie("tempPass", "", time() - 3600);
-            setcookie("tempCorreo", "", time() - 3600);
-            setcookie("cod_act", "", time() - 3600);
             header("Location: login.php?registrado=false");
         }
     } 

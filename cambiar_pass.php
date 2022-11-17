@@ -2,6 +2,7 @@
     require_once 'operacionesBD.php';
     require_once 'operacionesCorreo.php';
     session_start();
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (comprobar_datos_registro($_POST['usuario'], $_POST['correo'])) {
             $cod_act = "act".rand(1000, 99999);
@@ -22,7 +23,7 @@
             session_destroy();
             $error = true;
         }
-    } else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    } else {
         if (isset($_SESSION['usu_cambio']['activacion']) && isset($_GET['cambioPass']) && $_GET['cambioPass']) {
             $cod_act = $_SESSION['usu_cambio']['activacion'];
             header("Location: cambio.php?activacion=$cod_act");
@@ -30,7 +31,10 @@
             echo "<h1 style='color: red'>No has confirmado la operacion por correo! Intenta de nuevo</h1>";
             session_destroy();
         }
-    } 
+    }
+
+
+     
     
 ?>
 
