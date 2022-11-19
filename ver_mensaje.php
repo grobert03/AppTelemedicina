@@ -46,18 +46,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mensaje</title>
+    <link rel='stylesheet' href='estilos/ver_mensaje.css'>
 </head>
 <body>
+    <header>
+        <div id="left">
+            <img src="./imgs/stethoscope.png" alt="stethoscope">
+            <h2><a href="inicio.php">MediMadrid</a></h2>
+        </div>
+        <div id="right">
+            <a href="perfil.php"><img src="imgs/user.png"></a>
+            <a href="logout.php"><img src="imgs/logout.png"></a>
+        </div>
+    </header>
+    <div id='contenido'>
     <?php
         $asunto = $mensaje['asunto'];
         $remitente = $mensaje['remitente'];
         $contenido = $mensaje['contenido'];
 
 
-        echo "<div>"; 
+        echo "<div id='mensaje'>"; 
         echo "<h3>Asunto: $asunto</h3><br>";
         echo "<p style='color: gray'>Desde: $remitente</p><br>";
-        echo "<p style='white-space: pre-line'>$contenido</p><br>";
+        echo "<p class='textarea' style='white-space: pre-line'>$contenido</p><br>";
         echo "</div>";
 
         if ($mensaje['leido'] == false && $_SESSION['usuario']['usuario'] != $remitente) {
@@ -65,6 +77,7 @@
         }
         
         if (isset($entrada) && $entrada) {
+            echo "<div id='respuesta'>";
             echo "<h2>Respuesta:</h2>";
             echo "<div>";
             echo "<h3>Re:$asunto</h3>";
@@ -76,6 +89,7 @@
             echo "<input type='submit' value='Responder'>";
             echo "</form>";
             echo "</div>";
+            echo "</div>";
         }
 
         if (isset($_GET['error_envio'])) {
@@ -84,5 +98,6 @@
         
     
     ?>
+    </div>
 </body>
 </html>
