@@ -164,6 +164,21 @@ function enviar_mensaje($destinatarios, $asunto, $contenido) {
 
 }
 
+function responder($destinatario, $usuario, $asunto, $contenido) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$fecha = date("Y-m-d");
+	$hora = date("H:i:s");
+
+	$consulta = "INSERT INTO mensajes (remitente, destinatario, asunto, contenido, fecha_envio, hora_envio, leido) VALUES ('$usuario', '$destinatario', '$asunto', '$contenido', cast('$fecha' AS DATE), cast('$hora' AS TIME), 0);";
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() == 0) {
+		return false;
+	} 
+	return true;
+}
+
 function mostrar_mensajes_recibidos($destinatario) {
 	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
 	$bd = new PDO($res[0], $res[1], $res[2]);

@@ -9,10 +9,24 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        if (!enviar_mensaje($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje'])) {
-            $envio = false;
-        } else {
-            $envio = true;
+        if (!isset($_POST['destinatarios'])) {
+            $error_destinatarios = true;
+        }  
+        
+        if ($_POST['asunto'] == '') {
+            $error_asunto = true;
+        } 
+        
+        if ($_POST['mensaje'] == '') {
+            $error_mensaje = true;
+        }
+        
+        if (!isset($error_destinatarios) && !isset($error_asunto) && !isset($error_mensaje)) {
+            if (!enviar_mensaje($_POST['destinatarios'], $_POST['asunto'], $_POST['mensaje'])) {
+                $envio = false;
+            } else {
+                $envio = true;
+            }
         }
     }
 ?>
@@ -66,6 +80,7 @@
             </div>
             <input type="submit">
         </form>
+        <div id='errores'>
         <?php 
 
             if (isset($envio) && !$envio) {
@@ -73,7 +88,20 @@
             } else if (isset($envio) && $envio) {
                 echo "<h3 style='color: green'>MENSAJE ENVIADO!</h3>";
             }
+
+            if (isset($error_asunto)) {
+                echo "<h3 style='color: red'>INDICA UN ASUNTO</h3><br>";
+            }
+
+            if (isset($error_destinatarios)) {
+                echo "<h3 style='color: red'>INDICA AL MENOS UN DESTINATARIO</h3><br>";
+            }
+
+            if (isset($error_mensaje)) {
+                echo "<h3 style='color: red'>NO PUEDES ENVIAR UN MENSAJE VACÍO</h3>";
+            }
         ?>
+        </div>
     </div>
 </body>
 </html>
