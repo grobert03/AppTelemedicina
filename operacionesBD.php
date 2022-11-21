@@ -387,3 +387,10 @@ function comprobar_carga($destinatario) {
 		return true;
 	}
 }
+
+function comprobar_usuario_modificar($usuario, $correo) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	
+}

@@ -5,4 +5,5 @@
     <port>2525</port>
     <username>9379cbc338f57d</username>
     <password>09f0d7eb61d4a6</password>
+    <debug>0</debug>
 </configuracion>

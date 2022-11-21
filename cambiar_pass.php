@@ -4,7 +4,7 @@
     session_start();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (comprobar_datos_registro($_POST['usuario'], $_POST['correo'])) {
+        if (comprobar_usuario_modificar($_POST['usuario'], $_POST['correo'])) {
             $cod_act = "act".rand(1000, 99999);
             
             
@@ -27,7 +27,7 @@
         if (isset($_SESSION['usu_cambio']['activacion']) && isset($_GET['cambioPass']) && $_GET['cambioPass']) {
             $cod_act = $_SESSION['usu_cambio']['activacion'];
             header("Location: cambio.php?activacion=$cod_act");
-        } else {
+        } else if (isset($_SESSIOn['usu_cambio'])) {
             echo "<h1 style='color: red'>No has confirmado la operacion por correo! Intenta de nuevo</h1>";
             session_destroy();
         }

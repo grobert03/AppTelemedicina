@@ -22,11 +22,16 @@
 
     if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && $_GET['confirmado'] == $_SESSION['registro']['codigo']) {
         if (ingresar_usuario($_SESSION['registro']['usuario'], $_SESSION['registro']['pass'], $_SESSION['registro']['correo'])) {
+            $_SESSION = array();
+            session_destroy();
+            setcookie(session_name(), 123, time() - 10000);
             header("Location: login.php?registrado=true");
         } else {
             header("Location: login.php?registrado=false");
         }
-    } 
+    } else if (isset($_GET['confirmado'])) {
+        $error_codigo = true;
+    }
 
 ?>
 <!DOCTYPE html>
@@ -69,6 +74,10 @@
 
             if (isset($correo_enviado) && $correo_enviado) {
                 echo "<p style='color: yellow;'>Revisa el correo electrónico</p>";
+            }
+
+            if (isset($error_codigo)) {
+                echo "<p style='color: red;'>Revisa el código!</p>";
             }
         ?>
         

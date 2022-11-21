@@ -67,7 +67,7 @@ function enviar_correo($destinatarios, $asunto, $mensaje) {
 	$mail = new PHPMailer();
 	$mail->IsSMTP();
 	// cambiar a 0 para no ver mensajes de error
-	$mail->SMTPDebug  = 0; 							
+	$mail->SMTPDebug  = $resul[5]; 							
 	$mail->SMTPAuth   = $resul[1];
 	$mail->SMTPSecure = "tls";                 
 	$mail->Host       = $resul[0];    
