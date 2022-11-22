@@ -422,3 +422,43 @@ function devolver_destinatarios($hora) {
 		return false;
 	}
 }
+
+function guardar_imagen($img) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$usu = $_SESSION['usuario']['usuario'];
+
+	if ($_SESSION['usuario']['tipo'] == 'medico') {
+		$consulta = "UPDATE medicos set foto = '$img' WHERE usuario = '$usu';";
+	} else {
+		$consulta = "UPDATE pacientes set foto = '$img' WHERE usuario = '$usu';";
+	}
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function devolver_foto() {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$usu = $_SESSION['usuario']['usuario'];
+
+	if ($_SESSION['usuario']['tipo'] == 'medico') {
+		$consulta = "SELECT foto from medicos WHERE usuario = '$usu';";
+	} else {
+		$consulta = "SELECT foto from pacientes WHERE usuario = '$usu';";
+	}
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 0) {
+		return false;
+	} else {
+		return $resultado->fetch();
+	}
+}

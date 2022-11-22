@@ -43,3 +43,8 @@ a {
     text-decoration: none;
     color: white;
 }
+
+#perfil img {
+    height: 50px;
+    width: 50px;
+}
