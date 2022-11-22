@@ -390,7 +390,35 @@ function comprobar_carga($destinatario) {
 
 function comprobar_usuario_modificar($usuario, $correo) {
 	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
-	$bd = new PDO($res[0], $res[1], $res[2]);
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+}
 
-	
+function verificar_varios_destinatarios($hora) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$consulta = "SELECT * FROM mensajes WHERE hora_envio = '$hora'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function devolver_destinatarios($hora) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$consulta = "SELECT * FROM mensajes WHERE hora_envio = '$hora'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 0) {
+		return $resultado->fetchAll();
+	} else {
+		return false;
+	}
 }

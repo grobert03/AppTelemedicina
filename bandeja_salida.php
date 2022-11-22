@@ -32,26 +32,39 @@
     <div id="contenedor">
         <div id="contenido">
         <?php 
+            $mensajes_duplicados = [];
             if ($mis_mensajes == false) {
                 echo "<h1 style='color: red;'>No has enviado ningun mensaje!</h1>";
             } else {
                 for ($i = 0; $i < sizeof($mis_mensajes); $i++) {
-                    $destinatario = $mis_mensajes[$i]['destinatario'];
-                    $asunto = $mis_mensajes[$i]['asunto'];
-                    $contenido = $mis_mensajes[$i]['contenido'];
-                    $id = $mis_mensajes[$i]['id_mensaje'];
-                    $fecha = $mis_mensajes[$i]['fecha_envio'];
-                    $hora = $mis_mensajes[$i]['hora_envio'];
-                    $contenido = substr($contenido, 0, 10);
-
-                    echo "<div class='mensaje'>";
-                    echo "<h3>Asunto: $asunto</h3>";
-                    echo "<p>Fecha: $fecha</p>";
-                    echo "<p>Hora: $hora</p>";
-                    echo "<p style='color: gray'>Para: $destinatario</p>";
-                    echo "<p>$contenido...</p>";
-                    echo "<a href='ver_mensaje.php?id=$id&modo=salida'>Ver mensaje completo</a>";
-                    echo "</div>";
+                    if (!in_array($mis_mensajes[$i]['hora_envio'], $mensajes_duplicados)) {
+                        if (verificar_varios_destinatarios($mis_mensajes[$i]['hora_envio'])) {
+                            array_push($mensajes_duplicados, $mis_mensajes[$i]['hora_envio']);
+                            $destinatario = 'varios';
+                        } else {
+                            $destinatario = $mis_mensajes[$i]['destinatario'];
+                        }
+    
+                        $asunto = $mis_mensajes[$i]['asunto'];
+                        $contenido = $mis_mensajes[$i]['contenido'];
+                        $id = $mis_mensajes[$i]['id_mensaje'];
+                        $fecha = $mis_mensajes[$i]['fecha_envio'];
+                        $hora = $mis_mensajes[$i]['hora_envio'];
+                        $contenido = substr($contenido, 0, 10);
+    
+                        echo "<div class='mensaje'>";
+                        echo "<h3>Asunto: $asunto</h3>";
+                        echo "<p>Fecha: $fecha</p>";
+                        echo "<p>Hora: $hora</p>";
+                        echo "<p style='color: gray'>Para: $destinatario</p>";
+                        echo "<p>$contenido...</p>";
+                        if ($destinatario == 'varios') {
+                            echo "<a href='ver_mensaje.php?id=$id&modo=salida&destinatarios=varios'>Ver mensaje completo</a>";
+                        } else {
+                            echo "<a href='ver_mensaje.php?id=$id&modo=salida'>Ver mensaje completo</a>";
+                        }
+                        echo "</div>";
+                    }
                 }
             }
         

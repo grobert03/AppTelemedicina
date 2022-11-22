@@ -25,6 +25,14 @@
                 
             } else {
                 $mensaje = devolver_mensaje_salida($_GET['id']);
+                if (isset($_GET['destinatarios']) && $_GET['destinatarios'] == 'varios' && $mensaje['remitente'] == $_SESSION['usuario']['usuario']) {
+                    $array = devolver_destinatarios($mensaje['hora_envio']);
+                    $destinatarios = "";
+                    for ($i = 0; $i < sizeof($array); $i++) {
+                        $destinatarios = $destinatarios.$array[$i]['destinatario'].", ";
+                    }
+
+                } 
                 if (!$mensaje) {
                     header('Location: bandeja_entrada.php');
                 } 
@@ -69,6 +77,9 @@
         echo "<div id='mensaje'>"; 
         echo "<h3>Asunto: $asunto</h3><br>";
         echo "<p style='color: gray'>Desde: $remitente</p><br>";
+        if (isset($destinatarios)) {
+            echo "<p>Para: $destinatarios</p><br>";
+        }
         echo "<p class='textarea' style='white-space: pre-line'>$contenido</p><br>";
         echo "</div>";
 
