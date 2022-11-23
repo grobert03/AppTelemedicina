@@ -389,7 +389,75 @@ function comprobar_carga($destinatario) {
 
 function comprobar_usuario_modificar($usuario, $correo) {
 	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
-	$bd = new PDO($res[0], $res[1], $res[2]);
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+}
 
-	
+function verificar_varios_destinatarios($hora) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$consulta = "SELECT * FROM mensajes WHERE hora_envio = '$hora'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function devolver_destinatarios($hora) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$consulta = "SELECT * FROM mensajes WHERE hora_envio = '$hora'";
+
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() > 0) {
+		return $resultado->fetchAll();
+	} else {
+		return false;
+	}
+}
+
+function guardar_imagen($img) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$usu = $_SESSION['usuario']['usuario'];
+
+	if ($_SESSION['usuario']['tipo'] == 'medico') {
+		$consulta = "UPDATE medicos set foto = '$img' WHERE usuario = '$usu';";
+	} else {
+		$consulta = "UPDATE pacientes set foto = '$img' WHERE usuario = '$usu';";
+	}
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function devolver_foto() {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/configuracion/configuracionBBDD.xml", dirname(__FILE__)."/configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);	
+
+	$usu = $_SESSION['usuario']['usuario'];
+
+	if ($_SESSION['usuario']['tipo'] == 'medico') {
+		$consulta = "SELECT foto from medicos WHERE usuario = '$usu';";
+	} else {
+		$consulta = "SELECT foto from pacientes WHERE usuario = '$usu';";
+	}
+	$resultado = $bd->query($consulta);
+
+	if ($resultado->rowCount() == 0) {
+		return false;
+	} else {
+		return $resultado->fetch();
+	}
 }

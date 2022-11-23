@@ -1,6 +1,17 @@
 <?php 
     require_once 'sesiones.php';
+    require_once 'operacionesBD.php';
     comprobar_sesion();
+
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $image = $_FILES['foto']['tmp_name']; 
+        $imgContent = addslashes(file_get_contents($image)); 
+        
+        $fila = guardar_imagen($imgContent);
+        
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,10 +34,11 @@
     </header>
     <div id="contenido">
         <div id="perfil">
-            <form action="" method="POST">
-                <?php echo "<" ?>
+            <img style='heigth: 100px; width: 100px;' src="data:image/jpg;charset=utf8;base64,<?php $fila = devolver_foto(); echo base64_encode($fila['foto']); ?>" /> 
+            <form action="perfil.php" method="POST"  enctype="multipart/form-data">
+                <input type="hidden" name='cambiar_foto' value='si'>
                 <input type="file" name="foto" accept="image/png, image/jpeg">
-                <input type="submit">
+                <input type="submit" value='cambiar_foto'>
             </form>
        
     
