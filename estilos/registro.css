@@ -56,3 +56,10 @@ form {
 p {
     font-weight: bold;
 }
+
+
+
+#left a, a:link, a:visited {
+    text-decoration: none!important;
+    color: white!important;
+}

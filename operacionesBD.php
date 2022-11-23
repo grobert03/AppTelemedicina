@@ -36,7 +36,6 @@ function comprobar_credenciales($nombre, $clave) {
 		// Verificar de que la contraseña es correcta
 		$resultado = $resultado->fetch();
 		if (password_verify($clave, $resultado['pass'])) {
-			
 			return $resultado;
 		} else {
 			return false;

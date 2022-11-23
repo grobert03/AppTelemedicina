@@ -47,7 +47,7 @@
     <header>
         <div id="left">
             <img src="./imgs/stethoscope.png" alt="stethoscope">
-            <h2>MediMadrid</h2>
+            <h2><a href="login.php">MediMadrid</a></h2>
         </div>
     </header>
     <section>

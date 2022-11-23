@@ -1,13 +1,12 @@
 <?php 
-   
-    require_once "operacionesBD.php";
+    require_once "operacionesBD/operacionesLogin.php";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Comprobar de que las credenciales son correctas
-        $usu = comprobar_credenciales($_POST['usuario'], $_POST['pass']);
+        $usu = comprobar_credenciales_login($_POST['usuario'], $_POST['pass']);
         if ($usu===false) {
             $err = true;
             $usuario = $_POST['usuario'];
-        }else {
+        } else {
             session_start();
             $_SESSION['usuario'] = $usu;
             header("Location: inicio.php");
