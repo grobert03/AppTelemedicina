@@ -1,5 +1,5 @@
 <?php 
-    require_once 'operacionesBD.php';
+    require_once 'operacionesBD/operacionesRegistro.php';
     session_start();
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -20,7 +20,7 @@
         }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && $_GET['confirmado'] == $_SESSION['registro']['codigo']) {
+    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['confirmado']) && isset($_SESSION['registro']) && $_GET['confirmado'] == $_SESSION['registro']['codigo']) {
         if (ingresar_usuario($_SESSION['registro']['usuario'], $_SESSION['registro']['pass'], $_SESSION['registro']['correo'])) {
             $_SESSION = array();
             session_destroy();

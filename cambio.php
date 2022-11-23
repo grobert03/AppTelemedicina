@@ -1,5 +1,5 @@
 <?php 
-    require_once 'operacionesBD.php';
+    require_once 'operacionesBD/operacionesCambiar.php';
     session_start();
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -10,7 +10,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['pass'] == $_POST['confirmar']) {
         cambiar_pass($_SESSION['usu_cambio']['usuario'], $_POST['pass']);
-        echo "<h1>Contraseña cambiada!";
+        header("Location: login.php");
         session_destroy();
     } 
 
@@ -26,8 +26,8 @@
 </head>
 <body>
     <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="POST">
-        <input type="password" name="pass">
-        <input type="password" name="confirmar">
+        Contraseña nueva:<input type="password" name="pass">
+        Confirmar contraseña:<input type="password" name="confirmar">
         <input type="submit">
     </form>
 

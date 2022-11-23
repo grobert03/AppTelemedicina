@@ -1,4 +1,6 @@
 <?php 
+require_once "operacionesCorreo.php";
+
 function leer_configuracionBDD($nombre, $esquema) {
     $config = new DOMDocument();
 	$config->load($nombre);
@@ -19,6 +21,72 @@ function leer_configuracionBDD($nombre, $esquema) {
 	return $resul;
 }
 
+// Funcion para comprobar que no se crean usuarios repetidos
+function comprobar_datos_registro($usuario, $correo) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/../configuracion/configuracionBBDD.xml", dirname(__FILE__)."/../configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
 
+	//Comprobar usuario en pacientes
+	$consulta = "Select * from pacientes where usuario = '$usuario'";
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() === 0) {
+		//Comprobar usuario en medicos
+		$consulta = "Select * from medicos where usuario = '$usuario'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() != 0) {
+			return false;
+		}
+	} 
+	
+	// Comprobar correo en pacientes
+	if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+		return false;
+	}
+
+	
+	$consulta = "Select * from pacientes where correo = '$correo'";
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() === 0) {
+		//Comprobar correo en medicos
+		$consulta = "Select * from medicos where correo = '$correo'";
+		$resultado = $bd->query($consulta);
+		if ($resultado->rowCount() != 0) {
+			return false;
+		}
+	} 
+	return true;
+}
+
+
+function comprobar_confirmar_ingreso($nombre, $clave, $correo, $cod_activacion) {
+	if (comprobar_datos_registro($nombre, $correo)) {
+		$carpeta = $_SERVER['PHP_SELF'] ;
+		if (enviar_correo_verificacion("Confirmacion registro", "Click en el enlace para verificar: <a href='http:localhost$carpeta?confirmado=$cod_activacion'>Activar</a>", $correo)) {
+			return true;
+		}
+		return false;
+	} else {
+		return false;
+	}
+}
+
+function ingresar_usuario($nombre, $clave, $correo) {
+	$res = leer_configuracionBDD(dirname(__FILE__)."/../configuracion/configuracionBBDD.xml", dirname(__FILE__)."/../configuracion/configuracionBBDD.xsd");
+	$bd = new PDO($res[0], $res[1], $res[2]);
+
+	$clave_cifrada = password_hash($clave, PASSWORD_DEFAULT);
+
+	if (str_contains($correo, "@comem.es")) {
+		$consulta = "INSERT INTO medicos VALUES('$nombre', '$clave_cifrada', '$correo', 0, NULL, NULL, NULL, NULL, NULL, NULL);";
+	} else {
+		$consulta = "INSERT INTO pacientes VALUES('$nombre', '$clave_cifrada', '$correo', 0, NULL);";
+	}
+	$resultado = $bd->query($consulta);
+	if ($resultado->rowCount() == 1) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 ?>

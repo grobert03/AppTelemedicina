@@ -1,6 +1,6 @@
 <?php 
-    require_once 'operacionesBD.php';
-    require_once 'operacionesCorreo.php';
+    require_once 'operacionesBD/operacionesCambiar.php';
+    require_once 'operacionesBD/operacionesCorreo.php';
     session_start();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

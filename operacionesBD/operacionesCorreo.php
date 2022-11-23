@@ -25,7 +25,7 @@ function leer_configuracionCorreo($nombre, $esquema) {
 }
 
 function enviar_correo_verificacion($asunto, $cuerpo, $destinatario) {
-    $resul = leer_configuracionCorreo(dirname(__FILE__)."/configuracion/configuracionCorreo.xml", dirname(__FILE__)."/configuracion/configuracionCorreo.xsd");
+    $resul = leer_configuracionCorreo(dirname(__FILE__)."/../configuracion/configuracionCorreo.xml", dirname(__FILE__)."/../configuracion/configuracionCorreo.xsd");
  	require "vendor/autoload.php";
  	
     $mail = new PHPMailer();
@@ -62,7 +62,7 @@ function enviar_correo_verificacion($asunto, $cuerpo, $destinatario) {
 
 
 function enviar_correo($destinatarios, $asunto, $mensaje) {
-	$resul = leer_configuracionCorreo(dirname(__FILE__)."/configuracion/configuracionCorreo.xml", dirname(__FILE__)."/configuracion/configuracionCorreo.xsd");
+	$resul = leer_configuracionCorreo(dirname(__FILE__)."/../configuracion/configuracionCorreo.xml", dirname(__FILE__)."/../configuracion/configuracionCorreo.xsd");
 	require "vendor/autoload.php";
 	$mail = new PHPMailer();
 	$mail->IsSMTP();

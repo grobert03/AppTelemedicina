@@ -1,5 +1,5 @@
 <?php 
-    require_once 'operacionesBD.php';
+    require_once 'operacionesBD/operacionesReceta.php';
     if (isset($_POST['codigo'])) {
         $receta = ver_receta($_POST['codigo']);
         if (!$receta) {
