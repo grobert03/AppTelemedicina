@@ -1,6 +1,6 @@
 <?php 
     require_once 'sesiones.php';
-    require_once 'operacionesBD.php';
+    require_once 'operacionesBD/operacionesBandeja.php';
     comprobar_sesion();
     
     $mis_mensajes = mostrar_mensajes_recibidos($_SESSION['usuario']['usuario']);

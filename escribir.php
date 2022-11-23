@@ -1,6 +1,6 @@
 <?php 
     require_once 'sesiones.php';
-    require_once 'operacionesBD.php';
+    require_once 'operacionesBD/operacionesEscribir.php';
     comprobar_sesion();
     $medicos = devolver_medicos();
     

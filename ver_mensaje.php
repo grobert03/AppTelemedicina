@@ -1,6 +1,6 @@
 <?php 
     require_once 'sesiones.php';
-    require_once 'operacionesBD.php';
+    require_once 'operacionesBD/operacionesMensaje.php';
     comprobar_sesion();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_POST['content'] == '') {
