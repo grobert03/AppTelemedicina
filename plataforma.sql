@@ -13,8 +13,6 @@ CREATE TABLE pacientes (
     usuario varchar(20) NOT NULL,
     pass varchar(255) NOT NULL,
     correo varchar(80) NOT NULL,
-    rol int DEFAULT 0, 
-    foto MEDIUMBLOB,
     CONSTRAINT PK_Paciente PRIMARY KEY (usuario, correo)
 );
 
@@ -23,14 +21,6 @@ CREATE TABLE medicos (
     usuario varchar(20) NOT NULL,
     pass varchar(255) NOT NULL,
     correo varchar(80) NOT NULL,
-    rol int DEFAULT 0, 
-    foto MEDIUMBLOB,
-    nr_colegiado varchar(9),
-    especialidad varchar(50),
-    cv BLOB,
-    hospital varchar(80),
-    valoracion DECIMAL(5, 2),
-    UNIQUE(nr_colegiado),
     CONSTRAINT PK_Medico PRIMARY KEY (usuario, correo)
 );
 

@@ -23,7 +23,6 @@
             <h2><a href="inicio.php">MediMadrid</a></h2>
         </div>
         <div id="right">
-            <a href="perfil.php"><img src="imgs/user.png"></a>
             <a href="logout.php"><img src="imgs/logout.png"></a>
         </div>
     </header>

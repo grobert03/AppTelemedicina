@@ -62,7 +62,7 @@ function comprobar_carga($destinatario) {
 
 	$resultado = $bd->query($consulta);
 
-	if ($resultado->rowCount() > 20) {
+	if ($resultado->rowCount() >= 20) {
 		return false;
 	} else {
 		return true;

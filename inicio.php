@@ -25,7 +25,6 @@
             <h2><a href="inicio.php">MediMadrid</a></h2>
         </div>
         <div id="right">
-            <a href="perfil.php"><img src="imgs/user.png"></a>
             <a href="logout.php"><img src="imgs/logout.png"></a>
         </div>
     </header>
@@ -41,9 +40,6 @@
         <?php 
             if ($_SESSION['usuario']['tipo'] == 'medico') {
                 echo '<button style="background-color: green"><a href="consultar_recetas.php">Recetas</a></button>';
-            }
-            if ($_SESSION['usuario']['rol'] == 1) {
-                echo "<button style='background-color: red;'><a href='admin.php'>Zona admin</a></button>";
             }
         ?>
     </div>
