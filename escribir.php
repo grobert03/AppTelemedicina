@@ -17,7 +17,7 @@
             $error_asunto = true;
         } 
         
-        if ($_POST['mensaje'] == '') {
+        if ($_POST['mensaje'] == '' || preg_match('/"/', $_POST['mensaje']) || preg_match("/'/", $_POST['mensaje'])) {
             $error_mensaje = true;
         }
         
@@ -97,7 +97,7 @@
             }
 
             if (isset($error_mensaje)) {
-                echo "<h3 style='color: red'>NO PUEDES ENVIAR UN MENSAJE VACÍO</h3>";
+                echo "<h3 style='color: red'>NO PUEDES ENVIAR UN MENSAJE VACÍO O QUE CONTIENE CARÁCTERES INVÁLIDOS</h3>";
             }
         ?>
         </div>

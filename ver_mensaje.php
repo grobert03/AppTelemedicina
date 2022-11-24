@@ -3,7 +3,7 @@
     require_once 'operacionesBD/operacionesMensaje.php';
     comprobar_sesion();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if ($_POST['content'] == '') {
+        if ($_POST['content'] == '' || preg_match('/"/', $_POST['content']) || preg_match("/'/", $_POST['content'])) {
             $id = $_SESSION['ver_mensaje']['id'];
             $modo = $_SESSION['ver_mensaje']['modo'];
             unset($_SESSION['ver_mensaje']);
@@ -27,9 +27,15 @@
                 $mensaje = devolver_mensaje_salida($_GET['id']);
                 if (isset($_GET['destinatarios']) && $_GET['destinatarios'] == 'varios' && $mensaje['remitente'] == $_SESSION['usuario']['usuario']) {
                     $array = devolver_destinatarios($mensaje['hora_envio']);
+              
                     $destinatarios = "";
                     for ($i = 0; $i < sizeof($array); $i++) {
-                        $destinatarios = $destinatarios.$array[$i]['destinatario'].", ";
+                        if ($array[$i]['leido']) {
+                            $destinatarios = $destinatarios.$array[$i]['destinatario']." (ha leído tu mensaje), ";
+                        } else {
+                            $destinatarios = $destinatarios.$array[$i]['destinatario']." (aún no ha leído tu mensaje), ";
+                        }
+                        
                     }
 
                 } 
@@ -103,7 +109,7 @@
         }
 
         if (isset($_GET['error_envio'])) {
-            echo "<p style='color:red'>NO PUEDE ENVIAR UN MENSAJE VACIO</p>";
+            echo "<p style='color:red'>NO PUEDE ENVIAR UN MENSAJE VACIO O CON CARÁCTERES INVÁLIDOS</p>";
         }
         
     

@@ -6,8 +6,12 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['crear'])) {
             if (comprobar_es_paciente($_POST['paciente'])) {
-                crear_receta($_POST['medicamento'], $_POST['paciente'], $_POST['principio_activo'], $_POST['dosis']);
-                $receta_creada = true;
+                if (!empty($_POST['medicamento'])  && !empty($_POST['principio_activo'])  && !empty($_POST['dosis']) ) {
+                    crear_receta($_POST['medicamento'], $_POST['paciente'], $_POST['principio_activo'], $_POST['dosis']);
+                    $receta_creada = true;
+                } else {
+                    $campos_obligatorios = true;
+                }
             } else {
                 $error_paciente = true;
             }
@@ -85,6 +89,10 @@
                     if (isset($error_paciente) && $error_paciente) {
                         echo "<p style='color: red'>Comprueba el paciente!</p>";
                     }
+                    if (isset($campos_obligatorios)) {
+                        echo "<p style='color: red'>Todos los campos son obligatorios!</p>";
+                    }
+
                     if (isset($receta_creada) && $receta_creada) {
                         echo "<p style='color: green'>Receta creada!</p>";
                     }

@@ -6,13 +6,11 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (comprobar_usuario_modificar($_POST['usuario'], $_POST['correo'])) {
             $cod_act = "act".rand(1000, 99999);
-            
-            
             $_SESSION['usu_cambio']['usuario'] = $_POST['usuario'];
             $_SESSION['usu_cambio']['correo'] = $_POST['correo'];
             $_SESSION['usu_cambio']['activacion'] = $cod_act;
             $carpeta = $_SERVER['PHP_SELF'] ;
-            $contenido = "Para confirmar, acceda al enlace: <a href='http:localhost$carpeta?cambioPass=true'>Activar</a>";
+            $contenido = "Para confirmar, acceda al enlace: <a href='http:localhost$carpeta?activacion=$cod_act'>Activar</a>";
             if (enviar_correo_verificacion('Cambio de contraseña', $contenido, $_POST['correo'])) {
                 $error = false;
             } else {
@@ -24,10 +22,11 @@
             $error = true;
         }
     } else {
-        if (isset($_SESSION['usu_cambio']['activacion']) && isset($_GET['cambioPass']) && $_GET['cambioPass']) {
+        if (isset($_SESSION['usu_cambio']['activacion']) && isset($_GET['activacion']) && $_GET['activacion'] == $_SESSION['usu_cambio']['activacion']) {
             $cod_act = $_SESSION['usu_cambio']['activacion'];
+            
             header("Location: cambio.php?activacion=$cod_act");
-        } else if (isset($_SESSIOn['usu_cambio'])) {
+        } else if (isset($_SESSION['usu_cambio'])) {
             echo "<h1 style='color: red'>No has confirmado la operacion por correo! Intenta de nuevo</h1>";
             session_destroy();
         }

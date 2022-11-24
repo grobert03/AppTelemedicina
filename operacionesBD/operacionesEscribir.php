@@ -41,6 +41,8 @@ function enviar_mensaje($destinatarios, $asunto, $contenido) {
 	$usu = $_SESSION['usuario']['usuario'];
 	$fecha = date("Y-m-d");
 	$hora = date("H:i:s");
+	
+	
 
 	for ($i = 0; $i < sizeof($destinatarios); $i++) {
 		$destino = $destinatarios[$i];

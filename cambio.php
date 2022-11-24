@@ -5,6 +5,8 @@
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if (!isset($_SESSION['usu_cambio']['usuario']) || $_GET['activacion'] != $_SESSION['usu_cambio']['activacion']) {
             header("Location: login.php");
+
+            session_destroy();
         } 
     }
 
